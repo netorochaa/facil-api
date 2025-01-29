@@ -14,7 +14,7 @@ class DoctorService
         $searchByName = data_get($params, 'nome');
 
         if ($searchByName) {
-            $searchByName = str_replace(['dr', 'dra', 'Dr', 'Dra'], '', $searchByName);
+            $searchByName = str_replace(['dr', 'dra', 'Dr', 'Dra', '.'], '', $searchByName);
         }
 
         return $this->repository->list($searchByName);
