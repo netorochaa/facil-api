@@ -5,7 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Models\User;
 use App\Repositories\IUserRepository;
 
-class UserRespositoryEloquent implements IUserRepository
+class UserRepositoryEloquent implements IUserRepository
 {
     public function create(array $data): User
     {

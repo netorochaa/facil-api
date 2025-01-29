@@ -6,7 +6,7 @@ use App\Models\City;
 use App\Repositories\ICityRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class CityRespositoryEloquent implements ICityRepository
+class CityRepositoryEloquent implements ICityRepository
 {
     public function list(?string $searchByName = null): LengthAwarePaginator
     {

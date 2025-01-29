@@ -3,7 +3,7 @@
 namespace Tests\Feature\Repositories;
 
 use App\Models\City;
-use App\Repositories\Eloquent\CityRespositoryEloquent;
+use App\Repositories\Eloquent\CityRepositoryEloquent;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -12,12 +12,12 @@ class CityRepositoryEloquentTest extends TestCase
 {
     use RefreshDatabase;
 
-    private CityRespositoryEloquent $repository;
+    private CityRepositoryEloquent $repository;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->repository = new CityRespositoryEloquent;
+        $this->repository = new CityRepositoryEloquent;
     }
 
     public function test_it_lists_cities()

@@ -3,17 +3,17 @@
 namespace Tests\Feature\Repositories;
 
 use App\Models\User;
-use App\Repositories\Eloquent\UserRespositoryEloquent;
+use App\Repositories\Eloquent\UserRepositoryEloquent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class UserRespositoryEloquentTest extends TestCase
+class UserRepositoryEloquentTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_it_creates_a_new_user()
     {
-        $repository = new UserRespositoryEloquent;
+        $repository = new UserRepositoryEloquent;
 
         $user = $repository->create([
             'name' => 'User Test',
