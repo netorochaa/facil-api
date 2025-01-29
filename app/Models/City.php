@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class City extends Model
@@ -19,8 +19,11 @@ class City extends Model
         'state',
     ];
 
-    public function comments(): HasMany
+    public function scopeSearch(Builder $query, ?string $search): Builder
     {
-        return $this->hasMany(Doctor::class);
+        return $query->when(
+            $search,
+            fn (Builder $query) => $query->where('name', 'like', "%$search%")
+        );
     }
 }
