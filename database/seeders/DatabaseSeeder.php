@@ -12,12 +12,15 @@ class DatabaseSeeder extends Seeder
     {
         User::factory()->create([
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'email' => 'christian.ramires@example.com',
+            'password' => bcrypt('password'),
         ]);
 
         $this->call([
             CitySeeder::class,
             DoctorSeeder::class,
+            PatientSeeder::class,
+            AppointmentSeeder::class,
         ]);
     }
 }

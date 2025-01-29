@@ -13,7 +13,7 @@ class PatientFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'cpf' => fake()->randomNumber(11),
+            'cpf' => fake()->numberBetween(0000000000, 99999999999),
             'phone' => fake()->phoneNumber(),
         ];
     }
