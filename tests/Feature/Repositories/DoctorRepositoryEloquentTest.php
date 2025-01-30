@@ -69,4 +69,18 @@ class DoctorRepositoryEloquentTest extends TestCase
 
         $this->assertCount(0, $doctors->items());
     }
+
+    public function test_list_by_city_method_returns_doctors_from_given_city()
+    {
+        $city = City::factory()->create();
+        $doctor1 = Doctor::factory()->create(['city_id' => $city->id]);
+        $doctor2 = Doctor::factory()->create();
+        $doctor3 = Doctor::factory()->create(['city_id' => $city->id]);
+
+        $doctors = $this->repository->listByCity($city->id);
+
+        $this->assertInstanceOf(LengthAwarePaginator::class, $doctors);
+
+        $this->assertCount(2, $doctors->items());
+    }
 }

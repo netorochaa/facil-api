@@ -65,4 +65,20 @@ class DoctorControllerTest extends TestCase
         $response->assertJsonCount(1, 'data');
         $response->assertJsonFragment(['id' => $doctor->id, 'name' => $doctor->name]);
     }
+
+    public function test_by_city_method_returns_doctors_from_given_city()
+    {
+        $city = City::factory()->create(['name' => 'São Paulo']);
+
+        $doctor1 = Doctor::factory()->create(['city_id' => $city->id]);
+        $doctor2 = Doctor::factory()->create();
+        $doctor3 = Doctor::factory()->create(['city_id' => $city->id]);
+
+        $response = $this->getJson(route('doctors.city', $city->id));
+
+        $response->assertSuccessful();
+        $response->assertJsonFragment(['id' => $doctor1->id]);
+        $response->assertJsonFragment(['id' => $doctor3->id]);
+        $response->assertJsonMissing(['id' => $doctor2->id]);
+    }
 }
