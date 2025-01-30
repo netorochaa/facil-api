@@ -8,6 +8,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class DoctorRepositoryEloquent implements IDoctorRepository
 {
+    public function store(array $data): Doctor
+    {
+        return Doctor::create($data);
+    }
+
     public function list(?string $searchByName = null): LengthAwarePaginator
     {
         return Doctor::query()

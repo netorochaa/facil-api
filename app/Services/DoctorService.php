@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Doctor;
 use App\Repositories\IDoctorRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -18,5 +19,10 @@ class DoctorService
         }
 
         return $this->repository->list($searchByName);
+    }
+
+    public function store(array $data): Doctor
+    {
+        return $this->repository->store($data);
     }
 }
