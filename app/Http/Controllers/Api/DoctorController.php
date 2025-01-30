@@ -22,11 +22,11 @@ class DoctorController extends Controller
         return DoctorResource::collection($doctors)->toResponse($request);
     }
 
-    public function byCity(Request $request, int $id): JsonResponse
+    public function byCity(Request $request, int $cityId): JsonResponse
     {
         $params = $request->only('nome');
 
-        $doctors = $this->doctorService->listByCity($params, $id);
+        $doctors = $this->doctorService->listByCity($params, $cityId);
 
         return DoctorResource::collection($doctors)->toResponse($request);
     }

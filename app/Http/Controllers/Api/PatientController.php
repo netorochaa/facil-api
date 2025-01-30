@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PatientStoreRequest;
+use App\Http\Requests\PatientUpdateRequest;
 use App\Http\Resources\PatientResource;
 use App\Http\Resources\PatientWithAppointmentResource;
 use App\Services\PatientService;
@@ -18,9 +19,9 @@ class PatientController extends Controller
     {
         $params = $request->only('nome');
 
-        $cityList = $this->patientService->list($params);
+        $patientList = $this->patientService->list($params);
 
-        return PatientResource::collection($cityList)->toResponse($request);
+        return PatientResource::collection($patientList)->toResponse($request);
     }
 
     public function store(PatientStoreRequest $request): JsonResponse
@@ -30,7 +31,7 @@ class PatientController extends Controller
         return (new PatientResource($patient))->toResponse($request);
     }
 
-    public function update(PatientStoreRequest $request, int $id): JsonResponse
+    public function update(PatientUpdateRequest $request, int $id): JsonResponse
     {
         $patient = $this->patientService->update($request->validated(), $id);
 

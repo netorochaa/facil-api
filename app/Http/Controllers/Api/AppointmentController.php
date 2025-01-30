@@ -17,9 +17,9 @@ class AppointmentController extends Controller
     {
         $params = $request->only('nome');
 
-        $cityList = $this->appointmentService->list($params);
+        $appointmentList = $this->appointmentService->list($params);
 
-        return AppointmentResource::collection($cityList)->toResponse($request);
+        return AppointmentResource::collection($appointmentList)->toResponse($request);
     }
 
     public function store(AppointmentStoreRequest $request): JsonResponse
