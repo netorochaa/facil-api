@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PatientStoreRequest;
 use App\Http\Resources\PatientResource;
+use App\Http\Resources\PatientWithAppointmentResource;
 use App\Services\PatientService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -31,8 +32,17 @@ class PatientController extends Controller
 
     public function update(PatientStoreRequest $request, int $id): JsonResponse
     {
-        $patient = $this->patientService->update($request->all(), $id);
+        $patient = $this->patientService->update($request->validated(), $id);
 
         return (new PatientResource($patient))->toResponse($request);
+    }
+
+    public function byDoctor(Request $request, int $doctorId): JsonResponse
+    {
+        $params = $request->only(['apenas-agendadas', 'nome']);
+
+        $patientList = $this->patientService->listByDoctor($params, $doctorId);
+
+        return PatientWithAppointmentResource::collection($patientList)->toResponse($request);
     }
 }

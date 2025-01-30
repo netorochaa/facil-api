@@ -14,4 +14,6 @@ interface IPatientRepository
     public function update(array $data, int $id): void;
 
     public function find(int $id): Patient;
+
+    public function listByDoctor(int $doctorId, bool $onlyPendingAppointments = false, ?string $searchByName = null): LengthAwarePaginator;
 }

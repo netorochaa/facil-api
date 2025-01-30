@@ -25,7 +25,7 @@ class Patient extends Model
     {
         return $query->when(
             $search,
-            fn (Builder $query) => $query->where('name', 'like', "%$search%")
+            fn (Builder $query) => $query->where('patients.name', 'like', "%$search%")
         );
     }
 

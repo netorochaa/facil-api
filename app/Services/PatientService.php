@@ -28,4 +28,17 @@ class PatientService
 
         return $this->repository->find($id);
     }
+
+    public function listByDoctor(array $params, int $doctorId): LengthAwarePaginator
+    {
+        $onlyPendingAppointments = false;
+
+        if (isset($params['apenas-agendadas'])) {
+            $onlyPendingAppointments = filter_var($params['apenas-agendadas'], FILTER_VALIDATE_BOOLEAN);
+        }
+
+        $searchByName = data_get($params, 'nome');
+
+        return $this->repository->listByDoctor($doctorId, $onlyPendingAppointments, $searchByName);
+    }
 }

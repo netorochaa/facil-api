@@ -25,6 +25,7 @@ Route::middleware([JwtMiddleware::class])->group(function () {
     Route::get('pacientes', [PatientController::class, 'index'])->name('patients.index');
     Route::post('pacientes', [PatientController::class, 'store'])->name('patients.store');
     Route::put('pacientes/{id}', [PatientController::class, 'update'])->name('patients.update');
+    Route::get('medicos/{doctorId}/pacientes', [PatientController::class, 'byDoctor'])->name('patients.doctor');
 
     Route::get('consultas', [AppointmentController::class, 'index'])->name('appointments.index');
     Route::post('medicos/consulta', [AppointmentController::class, 'store'])->name('appointments.store');
