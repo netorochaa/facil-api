@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             CitySeeder::class,
             DoctorSeeder::class,
             PatientSeeder::class,
-            AppointmentSeeder::class,
         ]);
     }
 }
