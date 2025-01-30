@@ -26,7 +26,7 @@ class DoctorControllerTest extends TestCase
         ]);
 
         $response->assertStatus(201);
-        $response->assertJsonFragment(['id' => 1]);
+        $response->assertJsonFragment(['name' => $doctor->name]);
     }
 
     public function test_it_validates_required_fields()

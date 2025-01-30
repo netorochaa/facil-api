@@ -27,7 +27,7 @@ class PatientControllerTest extends TestCase
         ]);
 
         $response->assertStatus(201);
-        $response->assertJsonFragment(['id' => 1]);
+        $response->assertJsonFragment(['name' => $patient->name]);
     }
 
     public function test_it_updates_a_new_patient()
