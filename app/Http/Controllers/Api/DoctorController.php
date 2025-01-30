@@ -17,9 +17,18 @@ class DoctorController extends Controller
     {
         $params = $request->only('nome');
 
-        $cityList = $this->doctorService->list($params);
+        $doctors = $this->doctorService->list($params);
 
-        return DoctorResource::collection($cityList)->toResponse($request);
+        return DoctorResource::collection($doctors)->toResponse($request);
+    }
+
+    public function byCity(Request $request, int $id): JsonResponse
+    {
+        $params = $request->only('nome');
+
+        $doctors = $this->doctorService->listByCity($params, $id);
+
+        return DoctorResource::collection($doctors)->toResponse($request);
     }
 
     public function store(DoctorStoreRequest $request): JsonResponse

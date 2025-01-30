@@ -14,6 +14,8 @@ Route::post('login', [JWTAuthController::class, 'login'])->name('login');
 Route::get('cidades', [CityController::class, 'index'])->name('cities.index');
 Route::get('medicos', [DoctorController::class, 'index'])->name('doctors.index');
 
+Route::get('cidades/{id}/medicos', [DoctorController::class, 'byCity'])->name('doctors.city');
+
 Route::middleware([JwtMiddleware::class])->group(function () {
     Route::get('user', [JWTAuthController::class, 'getUser']);
     Route::post('logout', [JWTAuthController::class, 'logout']);

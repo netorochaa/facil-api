@@ -20,4 +20,13 @@ class DoctorRepositoryEloquent implements IDoctorRepository
             ->orderBy('name')
             ->paginate(20);
     }
+
+    public function listByCity(int $cityId, ?string $searchByName = null): LengthAwarePaginator
+    {
+        return Doctor::query()
+            ->where('city_id', $cityId)
+            ->search($searchByName)
+            ->orderBy('name')
+            ->paginate(20);
+    }
 }
