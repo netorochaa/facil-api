@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Auth\Api\JWTAuthController;
 use App\Http\Middleware\JwtMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -17,4 +18,8 @@ Route::middleware([JwtMiddleware::class])->group(function () {
     Route::post('logout', [JWTAuthController::class, 'logout']);
 
     Route::post('medicos', [DoctorController::class, 'store'])->name('doctors.store');
+
+    Route::get('pacientes', [PatientController::class, 'index'])->name('patients.index');
+    Route::post('pacientes', [PatientController::class, 'store'])->name('patients.store');
+    Route::put('pacientes/{id}', [PatientController::class, 'update'])->name('patients.update');
 });

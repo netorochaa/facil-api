@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,6 +20,14 @@ class Patient extends Model
         'cpf',
         'phone',
     ];
+
+    public function scopeSearch(Builder $query, ?string $search): Builder
+    {
+        return $query->when(
+            $search,
+            fn (Builder $query) => $query->where('name', 'like', "%$search%")
+        );
+    }
 
     public function appointments(): HasMany
     {
