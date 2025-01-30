@@ -13,6 +13,7 @@ use App\Repositories\IDoctorRepository;
 use App\Repositories\IPatientRepository;
 use App\Repositories\IUserRepository;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Str::macro('removeDoctorPrefix', function (string $string) {
+            return str_replace(['dr', 'dra', 'Dr', 'Dra', '.'], '', $string);
+        });
     }
 }
