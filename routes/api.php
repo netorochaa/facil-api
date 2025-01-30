@@ -15,4 +15,6 @@ Route::get('medicos', [DoctorController::class, 'index'])->name('doctors.index')
 Route::middleware([JwtMiddleware::class])->group(function () {
     Route::get('user', [JWTAuthController::class, 'getUser']);
     Route::post('logout', [JWTAuthController::class, 'logout']);
+
+    Route::post('medicos', [DoctorController::class, 'store'])->name('doctors.store');
 });

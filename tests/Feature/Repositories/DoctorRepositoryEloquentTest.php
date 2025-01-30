@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Repositories;
 
+use App\Models\City;
 use App\Models\Doctor;
 use App\Repositories\Eloquent\DoctorRepositoryEloquent;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -18,6 +19,19 @@ class DoctorRepositoryEloquentTest extends TestCase
     {
         parent::setUp();
         $this->repository = new DoctorRepositoryEloquent;
+    }
+
+    public function test_it_stores_a_new_doctor()
+    {
+        $city = City::factory()->create();
+        $doctorData = Doctor::factory()->make(['city_id' => $city->id]);
+
+        $doctor = $this->repository->store($doctorData->toArray());
+
+        $this->assertInstanceOf(Doctor::class, $doctor);
+        $this->assertEquals($doctorData['name'], $doctor->name);
+        $this->assertEquals($doctorData['spacialty'], $doctor->spacialty);
+        $this->assertEquals($doctorData['city_id'], $doctor->city_id);
     }
 
     public function test_it_lists_doctors()

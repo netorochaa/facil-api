@@ -2,13 +2,46 @@
 
 namespace Tests\Feature\Controllers;
 
+use App\Models\City;
 use App\Models\Doctor;
+use App\Traits\Tests\ActingJwt;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class DoctorControllerTest extends TestCase
 {
+    use ActingJwt;
     use RefreshDatabase;
+
+    public function test_it_creates_a_new_doctor()
+    {
+        $this->actingJwt();
+
+        $city = City::factory()->create();
+
+        $doctor = Doctor::factory()->make(['city_id' => $city->id]);
+
+        $response = $this->postJson(route('doctors.store'), $doctor->toArray(), [
+            'Authorization' => "Bearer {$this->token}",
+        ]);
+
+        $response->assertStatus(201);
+        $response->assertJsonFragment(['id' => 1]);
+    }
+
+    public function test_it_validates_required_fields()
+    {
+        $this->actingJwt();
+
+        $doctorData = [];
+
+        $response = $this->postJson(route('doctors.store'), $doctorData, [
+            'Authorization' => "Bearer {$this->token}",
+        ]);
+
+        $response->assertStatus(500);
+        $response->assertJson(['message' => 'O campo nome é obrigatório. (and 2 more errors)']);
+    }
 
     public function test_it_returns_a_list_of_doctors()
     {

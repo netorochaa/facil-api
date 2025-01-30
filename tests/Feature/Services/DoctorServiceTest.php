@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Services;
 
+use App\Models\City;
 use App\Models\Doctor;
 use App\Repositories\IDoctorRepository;
 use App\Services\DoctorService;
@@ -24,6 +25,21 @@ class DoctorServiceTest extends TestCase
         parent::setUp();
         $this->repository = Mockery::mock(IDoctorRepository::class);
         $this->service = new DoctorService($this->repository);
+    }
+
+    public function test_it_stores_a_new_doctor()
+    {
+        $city = City::factory()->create();
+        $doctorData = Doctor::factory()->make(['city_id' => $city->id]);
+
+        $this->repository->shouldReceive('store')->andReturn($doctorData);
+
+        $doctor = $this->service->store($doctorData->toArray());
+
+        $this->assertInstanceOf(Doctor::class, $doctor);
+        $this->assertEquals($doctorData['name'], $doctor->name);
+        $this->assertEquals($doctorData['spacialty'], $doctor->spacialty);
+        $this->assertEquals($doctorData['city_id'], $doctor->city_id);
     }
 
     public function test_it_lists_doctors()
