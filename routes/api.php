@@ -27,5 +27,5 @@ Route::middleware([JwtMiddleware::class])->group(function () {
     Route::put('pacientes/{id}', [PatientController::class, 'update'])->name('patients.update');
 
     Route::get('consultas', [AppointmentController::class, 'index'])->name('appointments.index');
-    Route::post('consultas', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::post('medicos/consulta', [AppointmentController::class, 'store'])->name('appointments.store');
 });
