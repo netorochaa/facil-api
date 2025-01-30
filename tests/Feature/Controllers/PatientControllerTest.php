@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Controllers;
 
+use App\Models\Appointment;
+use App\Models\Doctor;
 use App\Models\Patient;
 use App\Traits\Tests\ActingJwt;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -82,5 +84,76 @@ class PatientControllerTest extends TestCase
         $response->assertSuccessful();
         $response->assertJsonCount(1, 'data');
         $response->assertJsonFragment(['id' => $patient->id, 'name' => $patient->name]);
+    }
+
+    public function test_it_list_patients_from_given_doctor()
+    {
+        $doctor = Doctor::factory()->create();
+        $patients = Patient::factory()
+            ->has(Appointment::factory()->state(['doctor_id' => $doctor->id]))
+            ->count(2)
+            ->create();
+
+        $patientAnotherDoctor = Patient::factory()
+            ->has(Appointment::factory())
+            ->create();
+
+        $this->assertDatabaseCount('patients', 3);
+
+        $response = $this->getJson(route('patients.doctor', $doctor->id), [
+            'Authorization' => "Bearer {$this->token}",
+        ]);
+
+        $response->assertSuccessful();
+        $response->assertJsonCount(2, 'data');
+    }
+
+    public function test_it_list_patients_from_given_doctor_with_search()
+    {
+        $nameToFind = 'Patient test';
+
+        $doctor = Doctor::factory()->create();
+        $patients = Patient::factory()
+            ->has(Appointment::factory()->state(['doctor_id' => $doctor->id]))
+            ->count(5)
+            ->create();
+
+        $patientToFind = Patient::factory()
+            ->has(Appointment::factory()->state(['doctor_id' => $doctor->id]))
+            ->create(['name' => $nameToFind]);
+
+        $response = $this->getJson(
+            route('patients.doctor', ['doctorId' => $doctor->id, 'nome' => $nameToFind]),
+            ['Authorization' => "Bearer {$this->token}"]
+        );
+
+        $response->assertSuccessful();
+        $response->assertJsonCount(1, 'data');
+    }
+
+    public function test_it_list_patients_from_given_doctor_with_pending_appointments()
+    {
+        $nameToFind = 'Patient test';
+
+        $doctor = Doctor::factory()->create();
+        $patientsWithEndedAppointments = Patient::factory()
+            ->has(Appointment::factory()->state(['doctor_id' => $doctor->id, 'date' => now()->subWeeks(2)]))
+            ->count(4)
+            ->create();
+
+        $patientsWithPenddingAppointments = Patient::factory()
+            ->has(Appointment::factory()->state(['doctor_id' => $doctor->id, 'date' => now()->addWeeks(2)]))
+            ->count(3)
+            ->create();
+
+        $this->assertDatabaseCount('patients', 7);
+
+        $response = $this->getJson(
+            route('patients.doctor', ['doctorId' => $doctor->id, 'apenas-agendadas' => true]),
+            ['Authorization' => "Bearer {$this->token}"]
+        );
+
+        $response->assertSuccessful();
+        $response->assertJsonCount(3, 'data');
     }
 }
