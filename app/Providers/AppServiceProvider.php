@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Repositories\Eloquent\AppointmentRepositoryEloquent;
 use App\Repositories\Eloquent\CityRepositoryEloquent;
 use App\Repositories\Eloquent\DoctorRepositoryEloquent;
 use App\Repositories\Eloquent\PatientRepositoryEloquent;
 use App\Repositories\Eloquent\UserRepositoryEloquent;
+use App\Repositories\IAppointmentRepository;
 use App\Repositories\ICityRepository;
 use App\Repositories\IDoctorRepository;
 use App\Repositories\IPatientRepository;
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ICityRepository::class, CityRepositoryEloquent::class);
         $this->app->bind(IDoctorRepository::class, DoctorRepositoryEloquent::class);
         $this->app->bind(IPatientRepository::class, PatientRepositoryEloquent::class);
+        $this->app->bind(IAppointmentRepository::class, AppointmentRepositoryEloquent::class);
     }
 
     /**

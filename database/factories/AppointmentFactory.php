@@ -16,7 +16,7 @@ class AppointmentFactory extends Factory
         return [
             'doctor_id' => Doctor::factory(),
             'patient_id' => Patient::factory(),
-            'date' => $this->faker->dateTime(),
+            'date' => $this->faker->dateTimeBetween('+1 week', '+1 year')->format('Y-m-d H:i:s'),
         ];
     }
 }

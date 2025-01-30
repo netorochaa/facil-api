@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\PatientController;
@@ -22,4 +23,7 @@ Route::middleware([JwtMiddleware::class])->group(function () {
     Route::get('pacientes', [PatientController::class, 'index'])->name('patients.index');
     Route::post('pacientes', [PatientController::class, 'store'])->name('patients.store');
     Route::put('pacientes/{id}', [PatientController::class, 'update'])->name('patients.update');
+
+    Route::get('consultas', [AppointmentController::class, 'index'])->name('appointments.index');
+    Route::post('consultas', [AppointmentController::class, 'store'])->name('appointments.store');
 });
